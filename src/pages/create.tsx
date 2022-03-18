@@ -1,8 +1,20 @@
-import { Button, Container, TextField, Typography } from '@mui/material'
+import {
+  Button,
+  Container,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography
+} from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { styled } from '@mui/system'
 import theme from '../theme'
 import { FormEvent, useState } from 'react'
+import { api } from '../helpers/axios'
+import { useRouter } from 'next/router'
 
 // const CustomButton = styled('button')({
 //   backgroundColor: theme.custom.orange,
@@ -19,6 +31,9 @@ export default function Create() {
   const [details, setDetails] = useState('')
   const [titleError, setTitleError] = useState(false)
   const [detailsError, setDetailsError] = useState(false)
+  const [category, setCategory] = useState('money')
+
+  const router = useRouter()
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -29,7 +44,13 @@ export default function Create() {
     if (details === '') setDetailsError(true)
 
     if (title && details) {
-      console.log(title, details)
+      api
+        .post('/notes', {
+          title: title,
+          details: details,
+          category: category
+        })
+        .then(() => router.push('/'))
     }
   }
 
@@ -69,6 +90,18 @@ export default function Create() {
           helperText={detailsError ? 'Campo obrigatório' : ''}
         />
 
+        <FormControl sx={{ my: 2, display: 'block' }}>
+          <FormLabel>Note Category</FormLabel>
+
+          <RadioGroup
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+          >
+            <FormControlLabel value="money" control={<Radio />} label="Money" />
+            <FormControlLabel value="todos" control={<Radio />} label="Todos" />
+            <FormControlLabel value="work" control={<Radio />} label="Work" />
+          </RadioGroup>
+        </FormControl>
         <Button
           type="submit"
           color="primary"
