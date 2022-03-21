@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next'
 import NoteCard from '../components/NoteCard'
 import { api } from '../helpers/axios'
 import { useState } from 'react'
+import Masonry from 'react-masonry-css'
 
 type Notes = {
   title: string
@@ -25,11 +26,21 @@ export default function Home({ data }: HomeProps) {
     setNotes(newNotes)
   }
 
+  const breakpoints = {
+    default: 3,
+    1300: 2,
+    900: 1
+  }
+
   return (
     <Container>
-      <Grid container spacing={3}>
+      <Masonry
+        breakpointCols={breakpoints}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
         {notes.map(note => (
-          <Grid key={note.id} item xs={12} md={6} lg={4}>
+          <div key={note.id}>
             <NoteCard
               handleDelete={handleDelete}
               title={note.title}
@@ -37,9 +48,9 @@ export default function Home({ data }: HomeProps) {
               details={note.details}
               id={note.id}
             />
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </Masonry>
     </Container>
   )
 }
