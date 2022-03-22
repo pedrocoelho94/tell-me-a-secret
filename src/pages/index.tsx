@@ -4,6 +4,7 @@ import NoteCard from '../components/NoteCard'
 import { api } from '../helpers/axios'
 import { useState } from 'react'
 import Masonry from 'react-masonry-css'
+import Head from 'next/head'
 
 type Notes = {
   title: string
@@ -33,25 +34,30 @@ export default function Home({ data }: HomeProps) {
   }
 
   return (
-    <Container>
-      <Masonry
-        breakpointCols={breakpoints}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column"
-      >
-        {notes.map(note => (
-          <div key={note.id}>
-            <NoteCard
-              handleDelete={handleDelete}
-              title={note.title}
-              category={note.category}
-              details={note.details}
-              id={note.id}
-            />
-          </div>
-        ))}
-      </Masonry>
-    </Container>
+    <>
+      <Head>
+        <title>All Notes - Note App</title>
+      </Head>
+      <Container>
+        <Masonry
+          breakpointCols={breakpoints}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {notes.map(note => (
+            <div key={note.id}>
+              <NoteCard
+                handleDelete={handleDelete}
+                title={note.title}
+                category={note.category}
+                details={note.details}
+                id={note.id}
+              />
+            </div>
+          ))}
+        </Masonry>
+      </Container>
+    </>
   )
 }
 

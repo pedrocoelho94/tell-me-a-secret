@@ -15,6 +15,7 @@ import theme from '../theme'
 import { FormEvent, useState } from 'react'
 import { api } from '../helpers/axios'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 // const CustomButton = styled('button')({
 //   backgroundColor: theme.custom.orange,
@@ -55,64 +56,77 @@ export default function Create() {
   }
 
   return (
-    <Container>
-      <Typography
-        color="textSecondary"
-        variant="h6"
-        component="h2"
-        gutterBottom
-      >
-        Create a new Note
-      </Typography>
-
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField
-          onChange={e => setTitle(e.target.value)}
-          value={title}
-          label="Note Title"
-          fullWidth
-          required
-          sx={{ my: 2, display: 'block' }}
-          error={titleError}
-          helperText={titleError ? 'Campo obrigatório' : ''}
-        />
-
-        <TextField
-          onChange={e => setDetails(e.target.value)}
-          value={details}
-          label="Details"
-          fullWidth
-          required
-          multiline
-          rows={4}
-          sx={{ my: 2, display: 'block' }}
-          error={detailsError}
-          helperText={detailsError ? 'Campo obrigatório' : ''}
-        />
-
-        <FormControl sx={{ my: 2, display: 'block' }}>
-          <FormLabel>Note Category</FormLabel>
-
-          <RadioGroup
-            value={category}
-            onChange={e => setCategory(e.target.value)}
-          >
-            <FormControlLabel value="money" control={<Radio />} label="Money" />
-            <FormControlLabel value="todos" control={<Radio />} label="Todos" />
-            <FormControlLabel value="work" control={<Radio />} label="Work" />
-          </RadioGroup>
-        </FormControl>
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
+    <>
+      <Head>
+        <title>Create new note - Note App</title>
+      </Head>
+      <Container>
+        <Typography
+          color="textSecondary"
+          variant="h6"
+          component="h2"
+          gutterBottom
         >
-          Submit
-        </Button>
-      </form>
+          Create a new Note
+        </Typography>
 
-      {/* <CustomButton>Meu Botão</CustomButton> */}
-    </Container>
+        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+          <TextField
+            onChange={e => setTitle(e.target.value)}
+            value={title}
+            label="Note Title"
+            fullWidth
+            required
+            sx={{ my: 2, display: 'block' }}
+            error={titleError}
+            helperText={titleError ? 'Campo obrigatório' : ''}
+          />
+
+          <TextField
+            onChange={e => setDetails(e.target.value)}
+            value={details}
+            label="Details"
+            fullWidth
+            required
+            multiline
+            rows={4}
+            sx={{ my: 2, display: 'block' }}
+            error={detailsError}
+            helperText={detailsError ? 'Campo obrigatório' : ''}
+          />
+
+          <FormControl sx={{ my: 2, display: 'block' }}>
+            <FormLabel>Note Category</FormLabel>
+
+            <RadioGroup
+              value={category}
+              onChange={e => setCategory(e.target.value)}
+            >
+              <FormControlLabel
+                value="money"
+                control={<Radio />}
+                label="Money"
+              />
+              <FormControlLabel
+                value="todos"
+                control={<Radio />}
+                label="Todos"
+              />
+              <FormControlLabel value="work" control={<Radio />} label="Work" />
+            </RadioGroup>
+          </FormControl>
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            endIcon={<KeyboardArrowRightIcon />}
+          >
+            Submit
+          </Button>
+        </form>
+
+        {/* <CustomButton>Meu Botão</CustomButton> */}
+      </Container>
+    </>
   )
 }

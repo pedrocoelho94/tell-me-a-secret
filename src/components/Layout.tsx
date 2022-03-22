@@ -1,20 +1,17 @@
-import { AddCircleOutlined, SubjectOutlined } from '@mui/icons-material'
-import {
-  AppBar,
-  Avatar,
-  Drawer,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography
-} from '@mui/material'
+import Menu from '@mui/icons-material/Menu'
+
+import AppBar from '@mui/material/AppBar'
+import Drawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+
 import { Box, styled } from '@mui/system'
-import { useRouter } from 'next/router'
 import { css } from '@emotion/react'
 
 import { format } from 'date-fns'
+import { useState } from 'react'
+import MenuContent from './MenuContent'
 
 const drawerWidth = 240
 
@@ -29,10 +26,11 @@ type LayoutProps = {
 //   paddingBottom: theme.spacing(3)
 // }))
 
-const Page = styled('div')`
+const Page = styled('main')`
   ${({ theme }) => css`
     background-color: #f9f9f9;
     width: 100%;
+    min-height: 100vh;
     padding-top: ${theme.spacing(3)};
     padding-bottom: ${theme.spacing(3)};
   `}
@@ -41,69 +39,88 @@ const Page = styled('div')`
 const ToobalHeight = styled(Toolbar)``
 
 const Layout = ({ children }: LayoutProps) => {
-  const router = useRouter()
-  const menuItem = [
-    {
-      text: 'My Notes',
-      icon: <SubjectOutlined color="primary" />,
-      path: '/'
-    },
-    {
-      text: 'Create Note',
-      icon: <AddCircleOutlined color="primary" />,
-      path: '/create'
-    }
-  ]
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setMobileOpen(!mobileOpen)
+  }
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar elevation={0} sx={{ width: `calc(100% - ${drawerWidth}px)` }}>
+    <>
+      <AppBar elevation={0}>
         <Toolbar>
-          <Typography sx={{ flexGrow: 1 }}>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleMenu}
+            sx={{ display: { sm: 'none' } }}
+          >
+            <Menu />
+          </IconButton>
+
+          <Typography noWrap sx={{ ml: 'auto' }}>
             Today is the {format(new Date(), 'do MMMM Y')}
           </Typography>
-          <Typography>Pedro</Typography>
-          <Avatar sx={{ marginLeft: 2 }} />
         </Toolbar>
       </AppBar>
 
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth
-          }
-        }}
-        variant="permanent"
-        anchor="left"
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="side menu"
       >
-        <div>
-          <Typography variant="h5" p={2}>
-            Ninja Notes
-          </Typography>
-        </div>
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={toggleMenu}
+          ModalProps={{
+            keepMounted: true // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth
+            }
+          }}
+        >
+          <MenuContent setMobileOpen={setMobileOpen} />
+        </Drawer>
+      </Box>
 
-        {/* list / links */}
-        <List>
-          {menuItem.map(item => (
-            <ListItemButton
-              selected={router.pathname === item.path}
-              key={item.text}
-              onClick={() => router.push(item.path)}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          ))}
-        </List>
-      </Drawer>
+      <Box display="flex">
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="side menu"
+        >
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: 'none', sm: 'block' },
 
-      <Page>
-        <ToobalHeight />
-        {children}
-      </Page>
-    </Box>
+              '& .MuiDrawer-paper': {
+                boxSizing: 'border-box',
+                width: drawerWidth,
+                top: 64,
+                bottom: 0,
+                height: `calc(100% - 64px)`
+              }
+            }}
+            open
+          >
+            <MenuContent setMobileOpen={setMobileOpen} />
+          </Drawer>
+        </Box>
+
+        <Page>
+          <ToobalHeight />
+          {children}
+        </Page>
+      </Box>
+    </>
   )
 }
 
