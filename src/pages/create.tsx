@@ -28,7 +28,7 @@ import Head from 'next/head'
 export default function Create() {
   const [title, setTitle] = useState('')
   const [details, setDetails] = useState('')
-  const [titleError, setTitleError] = useState(false)
+  //const [titleError, setTitleError] = useState(false)
   const [detailsError, setDetailsError] = useState(false)
   //const [category, setCategory] = useState('money')
   const [isSending, setIsSending] = useState(false)
@@ -37,18 +37,18 @@ export default function Create() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setTitleError(false)
+    //setTitleError(false)
     setDetailsError(false)
 
-    if (title === '') setTitleError(true)
+    //if (title === '') setTitleError(true)
     if (details === '') setDetailsError(true)
 
-    if (title && details) {
+    if (details) {
       setIsSending(true)
 
       try {
         await api.post('/notes', {
-          title: title,
+          //title: title,
           details: details
           // category: category
         })
@@ -82,7 +82,7 @@ export default function Create() {
         </Typography>
 
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          <TextField
+          {/* <TextField
             disabled={isSending}
             onChange={e => setTitle(e.target.value)}
             value={title}
@@ -92,7 +92,7 @@ export default function Create() {
             sx={{ my: 2, display: 'block' }}
             error={titleError}
             helperText={titleError ? 'Campo obrigatório' : ''}
-          />
+          /> */}
 
           <TextField
             disabled={isSending}
@@ -102,7 +102,7 @@ export default function Create() {
             fullWidth
             required
             multiline
-            rows={4}
+            rows={6}
             sx={{ my: 2, display: 'block' }}
             error={detailsError}
             helperText={detailsError ? 'Campo obrigatório' : ''}

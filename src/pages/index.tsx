@@ -57,7 +57,11 @@ export default function Home({ data }: HomeProps) {
 
   const handleClick = () => {
     setLoading(true)
-    setSecrets([data[Math.floor(Math.random() * data.length)]])
+
+    const randonIndex = Math.floor(Math.random() * data.length)
+    console.log(randonIndex)
+
+    setSecrets(() => [data[randonIndex]])
     setLoading(false)
   }
 

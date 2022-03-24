@@ -41,7 +41,7 @@ const NoteCard = ({
   return (
     <div>
       <Card elevation={2}>
-        <CardHeader
+        {/* <CardHeader
           // avatar={
           //   <AvatarCustom category={category}>
           //     {category[0].toUpperCase()}
@@ -54,9 +54,9 @@ const NoteCard = ({
           // }
           title={title}
           subheader={category}
-        />
+        /> */}
         <CardContent>
-          <Typography variant="body2" color="textSecondary">
+          <Typography component="p" variant="h5" color="textSecondary">
             {details}
           </Typography>
         </CardContent>
