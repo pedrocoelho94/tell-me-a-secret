@@ -1,5 +1,5 @@
 import CloseOutlined from '@mui/icons-material/CloseOutlined'
-import SubjectOutlined from '@mui/icons-material/SubjectOutlined'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import AddCircleOutlined from '@mui/icons-material/AddCircleOutlined'
 
 import IconButton from '@mui/material/IconButton'
@@ -18,12 +18,12 @@ type MenuContentProps = {
 
 const menuItem = [
   {
-    text: 'My Notes',
-    icon: <SubjectOutlined color="primary" />,
+    text: 'Segredo aleatório',
+    icon: <AutoAwesomeIcon color="primary" />,
     path: '/'
   },
   {
-    text: 'Create Note',
+    text: 'Novo segredo',
     icon: <AddCircleOutlined color="primary" />,
     path: '/create'
   }
@@ -43,8 +43,8 @@ const MenuContent = ({ setMobileOpen }: MenuContentProps) => {
   return (
     <>
       <Toolbar sx={{ display: { sm: 'none' } }}>
-        <Typography variant="h5" sx={{ flexGrow: 1 }}>
-          Ninja Notes
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          Tell me a secret
         </Typography>
         <IconButton
           size="large"

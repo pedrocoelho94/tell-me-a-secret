@@ -12,11 +12,11 @@ import {
 import { yellow, blue, pink } from '@mui/material/colors'
 
 type NoteCardProps = {
-  id: number
+  id: string
   title: string
-  category: string
+  category?: string
   details: string
-  handleDelete: (id: Number) => void
+  handleDelete?: (id: Number) => void
 }
 
 type CategoryProps = {
@@ -42,16 +42,16 @@ const NoteCard = ({
     <div>
       <Card elevation={2}>
         <CardHeader
-          avatar={
-            <AvatarCustom category={category}>
-              {category[0].toUpperCase()}
-            </AvatarCustom>
-          }
-          action={
-            <IconButton onClick={() => handleDelete(id)}>
-              <DeleteOutlined />
-            </IconButton>
-          }
+          // avatar={
+          //   <AvatarCustom category={category}>
+          //     {category[0].toUpperCase()}
+          //   </AvatarCustom>
+          // }
+          // action={
+          //   <IconButton onClick={() => handleDelete(id)}>
+          //     <DeleteOutlined />
+          //   </IconButton>
+          // }
           title={title}
           subheader={category}
         />

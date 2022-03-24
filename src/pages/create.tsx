@@ -1,17 +1,15 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography
-} from '@mui/material'
+import { GetStaticProps } from 'next'
+import Container from '@mui/material/Container'
+// import FormControl from '@mui/material/FormControl'
+// import FormControlLabel from '@mui/material/FormControlLabel'
+// import FormLabel from '@mui/material/FormLabel'
+// import Radio from '@mui/material/Radio'
+// import RadioGroup from '@mui/material/RadioGroup'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import LoadingButton from '@mui/lab/LoadingButton'
+
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { styled } from '@mui/system'
-import theme from '../theme'
 import { FormEvent, useState } from 'react'
 import { api } from '../helpers/axios'
 import { useRouter } from 'next/router'
@@ -32,11 +30,12 @@ export default function Create() {
   const [details, setDetails] = useState('')
   const [titleError, setTitleError] = useState(false)
   const [detailsError, setDetailsError] = useState(false)
-  const [category, setCategory] = useState('money')
+  //const [category, setCategory] = useState('money')
+  const [isSending, setIsSending] = useState(false)
 
   const router = useRouter()
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setTitleError(false)
     setDetailsError(false)
@@ -45,20 +44,26 @@ export default function Create() {
     if (details === '') setDetailsError(true)
 
     if (title && details) {
-      api
-        .post('/notes', {
+      setIsSending(true)
+
+      try {
+        await api.post('/notes', {
           title: title,
-          details: details,
-          category: category
+          details: details
+          // category: category
         })
-        .then(() => router.push('/'))
+
+        router.push('/')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
   return (
     <>
       <Head>
-        <title>Create new note - Note App</title>
+        <title>Novo segredo | Tell me a secret</title>
       </Head>
       <Container>
         <Typography
@@ -66,15 +71,22 @@ export default function Create() {
           variant="h6"
           component="h2"
           gutterBottom
+          pt={2}
         >
-          Create a new Note
+          Me conte um segredo
+        </Typography>
+
+        <Typography color="textSecondary" variant="body1">
+          Me conte algo que ninguém saiba sobre você de forma totalmente
+          anônima.
         </Typography>
 
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <TextField
+            disabled={isSending}
             onChange={e => setTitle(e.target.value)}
             value={title}
-            label="Note Title"
+            label="Título"
             fullWidth
             required
             sx={{ my: 2, display: 'block' }}
@@ -83,9 +95,10 @@ export default function Create() {
           />
 
           <TextField
+            disabled={isSending}
             onChange={e => setDetails(e.target.value)}
             value={details}
-            label="Details"
+            label="Detalhes"
             fullWidth
             required
             multiline
@@ -95,7 +108,7 @@ export default function Create() {
             helperText={detailsError ? 'Campo obrigatório' : ''}
           />
 
-          <FormControl sx={{ my: 2, display: 'block' }}>
+          {/* <FormControl sx={{ my: 2, display: 'block' }}>
             <FormLabel>Note Category</FormLabel>
 
             <RadioGroup
@@ -114,19 +127,26 @@ export default function Create() {
               />
               <FormControlLabel value="work" control={<Radio />} label="Work" />
             </RadioGroup>
-          </FormControl>
-          <Button
+          </FormControl> */}
+          <LoadingButton
             type="submit"
-            color="primary"
-            variant="contained"
             endIcon={<KeyboardArrowRightIcon />}
+            loading={isSending}
+            loadingPosition="end"
+            variant="contained"
           >
-            Submit
-          </Button>
+            Enviar
+          </LoadingButton>
         </form>
 
         {/* <CustomButton>Meu Botão</CustomButton> */}
       </Container>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {}
+  }
 }

@@ -19,6 +19,6 @@
     "strictNullChecks": true
     
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "copilos.js"],
   "exclude": ["node_modules"]
 }

@@ -10,6 +10,7 @@ import { Box, styled } from '@mui/system'
 import { css } from '@emotion/react'
 
 import { format } from 'date-fns'
+import pt from 'date-fns/locale/pt'
 import { useState } from 'react'
 import MenuContent from './MenuContent'
 
@@ -31,8 +32,6 @@ const Page = styled('main')`
     background-color: #f9f9f9;
     width: 100%;
     min-height: 100vh;
-    padding-top: ${theme.spacing(3)};
-    padding-bottom: ${theme.spacing(3)};
   `}
 `
 
@@ -60,8 +59,10 @@ const Layout = ({ children }: LayoutProps) => {
             <Menu />
           </IconButton>
 
+          <Typography>Tell me a Secret</Typography>
+
           <Typography noWrap sx={{ ml: 'auto' }}>
-            Today is the {format(new Date(), 'do MMMM Y')}
+            {format(new Date(), "dd 'de' MMMM'", { locale: pt })}
           </Typography>
         </Toolbar>
       </AppBar>
