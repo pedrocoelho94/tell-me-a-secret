@@ -66,17 +66,11 @@ export default function Create() {
         <title>Novo segredo | Tell me a secret</title>
       </Head>
       <Container>
-        <Typography
-          color="textSecondary"
-          variant="h6"
-          component="h2"
-          gutterBottom
-          pt={2}
-        >
+        <Typography variant="h6" component="h2" gutterBottom pt={2}>
           Me conte um segredo
         </Typography>
 
-        <Typography color="textSecondary" variant="body1">
+        <Typography variant="body1">
           Me conte algo que ninguém saiba sobre você de forma totalmente
           anônima.
         </Typography>
@@ -95,6 +89,7 @@ export default function Create() {
           /> */}
 
           <TextField
+            color="secondary"
             disabled={isSending}
             onChange={e => setDetails(e.target.value)}
             value={details}

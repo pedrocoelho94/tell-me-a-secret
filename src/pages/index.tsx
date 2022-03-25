@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material'
+import { Button, Container, Grid, Stack } from '@mui/material'
 import { GetStaticProps } from 'next'
 import NoteCard from '../components/NoteCard'
 import { useState } from 'react'
@@ -10,6 +10,7 @@ import { query as q } from 'faunadb'
 import { Box } from '@mui/system'
 import { LoadingButton } from '@mui/lab'
 import ClientOnly from '../components/ClientOnly'
+import { useRouter } from 'next/router'
 
 type SecretProps = {
   ref: {
@@ -43,6 +44,8 @@ type SecretsFetch = {
 }
 
 export default function Home({ data }: HomeProps) {
+  const router = useRouter()
+
   const [secrets, setSecrets] = useState(() => [
     data[Math.floor(Math.random() * data.length)]
   ])
@@ -74,7 +77,7 @@ export default function Home({ data }: HomeProps) {
   return (
     <>
       <Head>
-        <title>Tell me a secret</title>
+        <title>Descubra | Tell me a secret</title>
       </Head>
 
       <ClientOnly>
@@ -103,7 +106,14 @@ export default function Home({ data }: HomeProps) {
           ))}
         </Masonry> */}
 
-          <Box mx="auto" pt={4}>
+          <Stack spacing={2} pt={4} direction={{ xs: 'column' }} mx="auto">
+            <Button
+              onClick={() => router.push('/create')}
+              sx={{ display: { xs: 'block', sm: 'none' } }}
+              variant="outlined"
+            >
+              Enviar segredo
+            </Button>
             <LoadingButton
               onClick={handleClick}
               loading={loading}
@@ -111,7 +121,7 @@ export default function Home({ data }: HomeProps) {
             >
               Me conte um novo segredo
             </LoadingButton>
-          </Box>
+          </Stack>
 
           {secrets?.map(secret => (
             <Box key={secret.id} maxWidth={600} mx="auto" py={4}>

@@ -29,7 +29,7 @@ type LayoutProps = {
 
 const Page = styled('main')`
   ${({ theme }) => css`
-    background-color: #f9f9f9;
+    background-color: ${theme.palette.secondary};
     width: 100%;
     min-height: 100vh;
   `}
