@@ -10,7 +10,7 @@
 <br>
 
 <p align="center">
-  <img alt="Em breve uma screenshot" src="/public/img/preview.png" width="100%" height="200px">
+  <img alt="Em breve uma screenshot" src="/public/img/preview.png" height="500px">
 </p>
 
 ## ✨ Tecnologias
